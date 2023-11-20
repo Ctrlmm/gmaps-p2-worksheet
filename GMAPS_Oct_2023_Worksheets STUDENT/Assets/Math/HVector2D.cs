@@ -30,63 +30,84 @@ public class HVector2D
         h = 1.0f;
     }
 
-    // public static HVector2D operator +( /*???*/)
-    // {
+    public static HVector2D operator +(HVector2D vector1 , HVector2D vector2 )
+    {
+       return new HVector2D(vector1.x + vector2.x, vector1.y + vector2.y);
+    }
 
-    // }
+    public static HVector2D operator -(HVector2D vector1, HVector2D vector2)
+    {
+        return new HVector2D(vector1.x - vector2.x, vector1.y - vector2.y);
+    }
 
-    // public static HVector2D operator -(/*???*/)
-    // {
+    public static HVector2D operator *(HVector2D vector, float scalar)
+    {
+        return new HVector2D(vector.x * scalar, vector.y * scalar);
+    }
 
-    // }
+    public static HVector2D operator /(HVector2D vector, float divisor)
+    {
+        if (divisor != 0)
+        {
+            return new HVector2D(vector.x / divisor, vector.y / divisor);
+        }
+        else
+        {
+            Debug.LogError("Division by zero!");
+            return vector; 
+        }
+    }
 
-    // public static HVector2D operator *(/*???*/)
-    // {
+    public float Magnitude()
+    {
+        return Mathf.Sqrt(x * x + y * y);
+    }
 
-    // }
+    public void Normalize()
+    {
+        float mag = Magnitude();
+        if (mag != 0)
+        {
+            x /= mag;
+            y /= mag;
+        }
+    }
 
-    // public static HVector2D operator /(/*???*/)
-    // {
+    public float DotProduct(HVector2D vector)
+    {
+        return x * vector.x + y * vector.y;
+    }
 
-    // }
+    public HVector2D Projection(HVector2D ontoVector)
+    {
+        float dotProduct = DotProduct(ontoVector);
+        float ontoVectorMagSquared = ontoVector.x * ontoVector.x + ontoVector.y * ontoVector.y;
+        HVector2D projection = ontoVector * (dotProduct / ontoVectorMagSquared);
+        return projection;
+    }
 
-    // public float Magnitude()
-    // {
+    public float FindAngle(HVector2D vector)
+    {
+        float dotProduct = DotProduct(vector);
+        float magProduct = Magnitude() * vector.Magnitude();
+        float cosTheta = dotProduct / magProduct;
+        float angleInRadians = Mathf.Acos(cosTheta);
+        return angleInRadians * Mathf.Rad2Deg; // Convert radians to degrees
+    }
 
-    // }
-
-    // public void Normalize()
-    // {
-
-    // }
-
-    // public float DotProduct(/*???*/)
-    // {
-
-    // }
-
-    // public HVector2D Projection(/*???*/)
-    // {
-
-    // }
-
-    // public float FindAngle(/*???*/)
-    // {
-
-    // }
 
     public Vector2 ToUnityVector2()
     {
-        return Vector2.zero; // change this
+        return new Vector2(x, y);
     }
 
     public Vector3 ToUnityVector3()
     {
-        return Vector2.zero; // change this
+        return new Vector3(x, y, h);
     }
 
-    // public void Print()
-    // {
-
-    // }
+     public void Print()
+    {
+        Debug.Log($"Vector: ({x}, {y}, {h})");
+    }
 }
