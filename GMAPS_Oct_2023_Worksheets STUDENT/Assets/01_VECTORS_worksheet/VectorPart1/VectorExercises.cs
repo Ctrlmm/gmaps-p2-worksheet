@@ -134,10 +134,10 @@ public class VectorExercises : MonoBehaviour
     public void Question3b()
     {
         HVector2D a = new HVector2D(3, 5);
-        HVector2D b = a * 2;
+        HVector2D b = a / 2;
 
         DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
-        DebugExtension.DebugArrow(Vector3.right, b.ToUnityVector3(), Color.green, 60f);
+        DebugExtension.DebugArrow(Vector3.right, b.ToUnityVector3(), Color.green, 60f);//Vector3.right : Represents a vector with x = 1 , Vector3.up: Represents a vector with y = 1 ,Vector3.forward: Represents a vector with z = 1
 
         Debug.Log($"Vector a: ({a.x}, {a.y})");
         Debug.Log($"Vector b: ({b.x}, {b.y})");
@@ -145,7 +145,16 @@ public class VectorExercises : MonoBehaviour
 
     public void Question3c()
     {
+        HVector2D a = new HVector2D(3, 5);
 
+        DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
+
+        a.Normalize();
+        Debug.Log("Magnitude of a = " + a.Magnitude().ToString("F2"));
+
+        DebugExtension.DebugArrow(Vector3.right, a.ToUnityVector3(), Color.green, 60f);
+
+        Debug.Log($"Vector a: ({a.x}, {a.y})");
     }
 
     public void Projection()
@@ -154,13 +163,12 @@ public class VectorExercises : MonoBehaviour
         HVector2D b = new HVector2D(6, 0);
         HVector2D c = new HVector2D(2, 2);
 
-        //HVector2D v1 = b - a;
-        // Your code here
+        HVector2D v1 = b - a;
+        HVector2D v2 = c - a;
+        HVector2D proj = v2.Projection(v1);
 
-        //HVector2D proj = // Your code here
-
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), b.ToUnityVector3(), Color.red, 60f);
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), c.ToUnityVector3(), Color.yellow, 60f);
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), proj.ToUnityVector3(), Color.white, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), b.ToUnityVector3(), Color.red, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), c.ToUnityVector3(), Color.yellow, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), proj.ToUnityVector3(), Color.white, 60f);
     }
 }
