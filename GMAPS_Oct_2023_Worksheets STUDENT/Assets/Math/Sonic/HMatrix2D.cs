@@ -52,20 +52,44 @@ public class HMatrix2D
         entries[2, 2] = m22;
     }
 
-    //    public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
-    //    {
-    //        return// your code here
-    //    }
+    public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
+    {
+        HMatrix2D result = new HMatrix2D();
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                result.entries[i, j] = left.entries[i, j] + right.entries[i, j];
+            }
+        }
+        return result;
+    }
 
-    //    public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
-    //    {
-    //        return // your code here
-    //    }
+    public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
+    {
+        HMatrix2D result = new HMatrix2D();
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                result.entries[i, j] = left.entries[i, j] - right.entries[i, j];
+            }
+        }
+        return result;
+    }
 
-    //    public static HMatrix2D operator *(HMatrix2D left, float scalar)
-    //    {
-    //        return // your code here
-    //    }
+    public static HMatrix2D operator *(HMatrix2D left, float scalar)
+    {
+        HMatrix2D result = new HMatrix2D();
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                result.entries[i, j] = left.entries[i, j] * scalar;
+            }
+        }
+        return result;
+    }
 
     //    // Note that the second argument is a HVector2D object
     //    //
