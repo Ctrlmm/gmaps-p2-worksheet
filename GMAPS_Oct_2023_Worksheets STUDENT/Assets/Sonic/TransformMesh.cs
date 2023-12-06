@@ -6,23 +6,25 @@ using UnityEngine;
 public class TransformMesh : MonoBehaviour
 {
     [HideInInspector]
-    public Vector3[] vertices { get; private set; }
-
+    public Vector3[] vertices { get; private set; }//Defines a public property vertices that stores an array of Vector3 points
     private HMatrix2D transformMatrix = new HMatrix2D();
     HMatrix2D toOriginMatrix = new HMatrix2D();
     HMatrix2D fromOriginMatrix = new HMatrix2D();
     HMatrix2D rotateMatrix = new HMatrix2D();
-
+    //Initializes all of these above 
+   
     private MeshManager meshManager;
-    HVector2D pos = new HVector2D();
-
-    void Start()
+    HVector2D pos = new HVector2D(); //Initializes (again !) an instance of HVector2D named pos
+   
+    void Start()//This method is called at the very start 
     {
         meshManager = GetComponent<MeshManager>();
+        //Gets the MeshManager component attached to the same GameObject this script is attached to 
+        //assigns to meshManager
         pos = new HVector2D(gameObject.transform.position.x, gameObject.transform.position.y);
-
-        Translate(10f, 10f);
-        Rotate(45f);
+        //Sets pos to a new HVector2D instance with the X and Y value
+        Translate(10f, 10f);//Calls Translate(), to apply a translation of 10 units , idk why no use
+        Rotate(45f);//Calls a method Rotate(),rotate 45 degrees
 
     }
 
