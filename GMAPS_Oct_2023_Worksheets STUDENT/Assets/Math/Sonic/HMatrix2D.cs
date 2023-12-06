@@ -223,6 +223,53 @@ public class HMatrix2D
     //    {
     //        // your code here
     //    }
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        HMatrix2D otherMatrix = (HMatrix2D)obj;
+
+        // Check if matrices have the same dimensions.
+        if (entries.GetLength(0) != otherMatrix.entries.GetLength(0) ||
+            entries.GetLength(1) != otherMatrix.entries.GetLength(1))
+        {
+            return false;
+        }
+
+        // Compare corresponding elements in the matrices.
+        for (int i = 0; i < entries.GetLength(0); i++)
+        {
+            for (int j = 0; j < entries.GetLength(1); j++)
+            {
+                if (entries[i, j] != otherMatrix.entries[i, j])
+                {
+                    return false; // If any pair of elements doesn't match, matrices are not equal.
+                }
+            }
+        }
+
+        return true; // Matrices are equal if all elements match.
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked // Overflow is fine for this purpose
+        {
+            int hash = 17;
+            // Adjust hash code based on matrix elements
+            for (int i = 0; i < entries.GetLength(0); i++)
+            {
+                for (int j = 0; j < entries.GetLength(1); j++)
+                {
+                    hash = hash * 23 + entries[i, j].GetHashCode();
+                }
+            }
+            return hash;
+        }
+    }
 
     public void Print()
     {
