@@ -91,46 +91,71 @@ public class HMatrix2D
         return result;
     }
 
-    //    // Note that the second argument is a HVector2D object
-    //    //
-    //    public static HVector2D operator *(HMatrix2D left, HVector2D right)
-    //    {
-    //        return // your code here
-    //    }
+    // Note that the second argument is a HVector2D object
+    //
+    public static HVector2D operator *(HMatrix2D left, HVector2D right)
+    {
+        return new HVector2D
+      (
+        left.entries[0, 0] * right.x + left.entries[0, 1] * right.y,
+        left.entries[1, 0] * right.x + left.entries[1, 1] * right.y
+      );
+    }
 
-    //    // Note that the second argument is a HMatrix2D object
-    //    //
-    //    public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
-    //    {
-    //        return new HMatrix2D
-    //        (
-    //            /* 
-    //                00 01 02    00 xx xx
-    //                xx xx xx    10 xx xx
-    //                xx xx xx    20 xx xx
-    //                */
-    //            left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
+    // Note that the second argument is a HMatrix2D object
+    //
+    public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
+    {
+        return new HMatrix2D
+     (
+         // Row 1
+         left.entries[0, 0] * right.entries[0, 0] + left.entries[0, 1] * right.entries[1, 0] + left.entries[0, 2] * right.entries[2, 0],
+         left.entries[0, 0] * right.entries[0, 1] + left.entries[0, 1] * right.entries[1, 1] + left.entries[0, 2] * right.entries[2, 1],
+         left.entries[0, 0] * right.entries[0, 2] + left.entries[0, 1] * right.entries[1, 2] + left.entries[0, 2] * right.entries[2, 2],
 
-    //            /* 
-    //                00 01 02    xx 01 xx
-    //                xx xx xx    xx 11 xx
-    //                xx xx xx    xx 21 xx
-    //                */
-    //            left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
+         // Row 2
+         left.entries[1, 0] * right.entries[0, 0] + left.entries[1, 1] * right.entries[1, 0] + left.entries[1, 2] * right.entries[2, 0],
+         left.entries[1, 0] * right.entries[0, 1] + left.entries[1, 1] * right.entries[1, 1] + left.entries[1, 2] * right.entries[2, 1],
+         left.entries[1, 0] * right.entries[0, 2] + left.entries[1, 1] * right.entries[1, 2] + left.entries[1, 2] * right.entries[2, 2],
 
-    //        // and so on for another 7 entries
-    //    );
-    //    }
+         // Row 3
+         left.entries[2, 0] * right.entries[0, 0] + left.entries[2, 1] * right.entries[1, 0] + left.entries[2, 2] * right.entries[2, 0],
+         left.entries[2, 0] * right.entries[0, 1] + left.entries[2, 1] * right.entries[1, 1] + left.entries[2, 2] * right.entries[2, 1],
+         left.entries[2, 0] * right.entries[0, 2] + left.entries[2, 1] * right.entries[1, 2] + left.entries[2, 2] * right.entries[2, 2]
+     );
+    }
 
-    //    public static bool operator ==(HMatrix2D left, HMatrix2D right)
-    //    {
-    //        // your code here
-    //    }
+    public static bool operator ==(HMatrix2D left, HMatrix2D right)
+    {
+        if (left is null || right is null) // Check if one of the matrices is null.
+            return false;
 
-    //    public static bool operator !=(HMatrix2D left, HMatrix2D right)
-    //    {
-    //        // your code here
-    //    }
+        // Assuming elements is a 2D array containing matrix elements.
+        // Check if matrices have the same dimensions.
+        if (left.entries.GetLength(0) != right.entries.GetLength(0) ||
+            left.entries.GetLength(1) != right.entries.GetLength(1))
+            return false;
+
+        // Compare corresponding elements in the matrices.
+        for (int i = 0; i < left.entries.GetLength(0); i++)
+        {
+            for (int j = 0; j < left.entries.GetLength(1); j++)
+            {
+                if (left.entries[i, j] != right.entries[i, j])
+                {
+                    return false; // If any pair of elements doesn't match, matrices are not equal.
+                }
+            }
+        }
+
+        return true; // Matrices are equal if all elements match.
+    }
+
+    public static bool operator !=(HMatrix2D left, HMatrix2D right)
+    {
+        // Utilize the previously defined equality operator to implement the inequality operator.
+        return !(left == right);
+    }
 
     //    public HMatrix2D transpose()
     //    {
@@ -168,15 +193,31 @@ public class HMatrix2D
 
     }
 
-    //    public void SetTranslationMat(float transX, float transY)
-    //    {
-    //        // your code here
-    //    }
+    public void SetTranslationMat(float transX, float transY)
+    {
+        // First, set the matrix to an identity matrix
+        SetIdentity();
 
-    //    public void SetRotationMat(float rotDeg)
-    //    {
-    //        // your code here
-    //    }
+        // Apply translation values to the matrix
+        entries[0, 2] = transX;
+        entries[1, 2] = transY;
+    }
+
+    public void SetRotationMat(float rotDeg)
+    {
+        SetIdentity();
+
+        // Convert degrees to radians
+        float rad = rotDeg * Mathf.Deg2Rad;
+
+        float cosValue = Mathf.Cos(rad);
+        float sinValue = Mathf.Sin(rad);
+
+        entries[0, 0] = cosValue;
+        entries[0, 1] = -sinValue;
+        entries[1, 0] = sinValue;
+        entries[1, 1] = cosValue;
+    }
 
     //    public void SetScalingMat(float scaleX, float scaleY)
     //    {
