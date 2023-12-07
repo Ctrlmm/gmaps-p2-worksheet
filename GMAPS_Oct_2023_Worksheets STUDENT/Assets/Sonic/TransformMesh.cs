@@ -48,7 +48,7 @@ public class TransformMesh : MonoBehaviour
     void Rotate(float angle)
     {
         rotateMatrix.SetIdentity();
-        rotateMatrix.SetRotationMat(angle); // Assuming you have a method to set rotation in HMatrix2D
+        rotateMatrix.SetRotationMat(angle); 
 
         transformMatrix.SetIdentity();
         transformMatrix = fromOriginMatrix * rotateMatrix; // Applying rotation after translation
